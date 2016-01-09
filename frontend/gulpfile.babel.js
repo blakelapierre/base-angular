@@ -19,6 +19,7 @@ const {dependencies} = require('./package.json'),
         lessReporter,
         minifyCss,
         minifyHtml,
+        nodeInspector,
         pipe,
         print,
         remember,
@@ -42,6 +43,10 @@ gulp.task('build', sequence(['clean:rev', 'clean:dist'],
                             ['js:vendor', 'js:app', 'html', 'images', 'styles', 'fonts'],
                             ['minify:css', 'minify:html', 'minify:js', 'minify:images'],
                             'rev'));
+
+gulp.task('debug', sequence('inspector', 'dev'));
+
+gulp.task('inspector', () => gulp.src([]).pipe(nodeInspector()));
 
 gulp.task('dev', cb => {
   const {src} = paths;
