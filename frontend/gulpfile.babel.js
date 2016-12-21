@@ -56,7 +56,7 @@ gulp.task('dev', cb => {
           ['js:vendor', 'js:app', 'html', 'images', 'styles', 'fonts'],
           'browser-sync')(cb);
 
-  gulp.watch(src.project,   ['project']);
+  gulp.watch(paths.project, ['project']);
   gulp.watch(src.vendor,    ['js:vendor']);
   gulp.watch(src.scripts,   ['js:app']);
   gulp.watch(src.templates, ['js:app']);
