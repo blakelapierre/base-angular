@@ -1,11 +1,14 @@
 const {dependencies} = require('./package.json'),
       gulp = require('gulp'),
+      angularProject = require('angular_project').api,
       multipipe = require('multipipe'),
+      fs = require('fs'),
       path = require('path'),
       browserify = require('browserify'),
       browserSync = require('browser-sync'),
       reload = browserSync.reload,
       source = require('vinyl-source-stream'),
+      through = require('through2'),
       _ = require('lodash'),
       {
         autoprefixer,
@@ -29,12 +32,14 @@ const {dependencies} = require('./package.json'),
         tasks,
         uglify,
         util
-      } = require('gulp-load-plugins')();
+      } = require('gulp-load-plugins')({pattern: ['gulp_*', 'gulp.*', 'gulp-*']});
 
 const result = tasks(gulp, require);
 if (typeof result === 'string') console.log(result);
 
 let p = name => print(file => console.log(name, file));
+
+const ap = directory => through.obj((file, enc, cb) => angularProject(file.contents.toString()).then(() => cb()).catch(e => p('ap', e)), cb => cb());
 
 gulp.task('default', ['build']);
 
@@ -47,10 +52,11 @@ gulp.task('dev', cb => {
   const {src} = paths;
 
   sequence('clean:dev',
-          ['js:vendor', 'js:app', 'html', 'images'],
-          'styles',
+          'project',
+          ['js:vendor', 'js:app', 'html', 'images', 'styles', 'fonts'],
           'browser-sync')(cb);
 
+  gulp.watch(src.project,   ['project']);
   gulp.watch(src.vendor,    ['js:vendor']);
   gulp.watch(src.scripts,   ['js:app']);
   gulp.watch(src.templates, ['js:app']);
@@ -64,6 +70,13 @@ gulp.task('dev', cb => {
         }
       });
 });
+
+gulp.task('project',
+  () => pipe([
+      gulp.src(paths.project)
+      ,p('project')
+      ,ap()
+    ]));
 
 gulp.task('browser-sync',
   () => browserSync({
@@ -219,6 +232,7 @@ gulp.task('rev',
 ))('clean');
 
 const paths = {
+  project: './project.ap',
   src: {
     $: './src',
     app: ['./src/app.js'],
