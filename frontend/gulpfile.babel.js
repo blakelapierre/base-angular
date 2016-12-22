@@ -40,7 +40,7 @@ if (typeof result === 'string') console.log(result);
 let p = name => print(file => console.log(name, file));
 
 const ap = directory => through.obj(function(file, enc, cb) {
-  return angularProject(file.contents.toString()).then(() => cb(), e => { console.log('AngularProject Error!', e); this.emit('error', e); });
+  return angularProject(file.contents.toString(), '.').then(() => cb(), e => { console.log('AngularProject Error!', e); this.emit('error', e); });
 }, cb => cb());
 
 gulp.task('default', ['build']);

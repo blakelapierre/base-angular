@@ -1,7 +1,10 @@
-src2 {
+base-angular {
   demo {
     # {
-      hi
+      center
+      helloWorld
+      selfie
+      spinner
     }
   }
 }
