@@ -4,10 +4,11 @@
   "repository": "https://github.com/blakelapierre/base-angular",
   "version": "0.0.6",
   "dependencies": {
-    "angular": "^1.4.7"
+    "angular": "^1.4.7",
+    "angular-route": "^1.6.0"
   },
   "devDependencies": {
-    "angular_project": "^1.0.0",
+    "angular_project": "^1.0.1",
     "babel": "^6.3.13",
     "babel-core": "^6.3.17",
     "babel-preset-es2015": "^6.3.13",

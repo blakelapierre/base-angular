@@ -1,10 +1,21 @@
 base-angular {
   demo {
+    < {
+      ngRoute   :angular-route
+    }
+
     # {
+      welcome
       center
       helloWorld
       selfie
       spinner
     }
+
+    > {
+      '/': welcome
+    }
+
+    config
   }
 }
